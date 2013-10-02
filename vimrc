@@ -209,10 +209,14 @@
   set incsearch                                       "incremental searching
   set ignorecase                                      "ignore case for searching
   set smartcase                                       "do case-sensitive if there's a capital letter
+
+  " use ack if available
   if executable('ack')
     set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
     set grepformat=%f:%l:%c:%m
   endif
+
+  " .. but prefer ag
   if executable('ag')
     set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
     set grepformat=%f:%l:%c:%m
@@ -244,6 +248,9 @@
 
   " clear search highlighting
   noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+
+  " keep curosr in place when joining lines
+  nnoremap J mzJ`z`
 
   " easy buffer navigation
   noremap <C-h> <C-w>h
@@ -537,6 +544,9 @@
       nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
       vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     "}}}
+
+    " Note: this has to be loaded before auto-pairs
+    NeoBundle 'skroll/Smart-Tabs'
     NeoBundle 'jiangmiao/auto-pairs'
     NeoBundle 'skwp/vim-easymotion' "{{{
       " NeoBundle 'Lokaltog/vim-easymotion'
@@ -548,6 +558,7 @@
   endif "}}}
   if count(s:settings.plugin_groups, 'navigation') "{{{
     NeoBundle 'mileszs/ack.vim' "{{{
+      " use ag if available
       if executable('ag')
         let g:ackprg = "ag --nogroup --column --smart-case --follow"
       endif
@@ -672,7 +683,6 @@
     "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'indents') "{{{
-    NeoBundle 'skroll/Smart-Tabs'
     NeoBundle 'nathanaelkane/vim-indent-guides' "{{{
       let g:indent_guides_start_level=1
       let g:indent_guides_guide_size=1
