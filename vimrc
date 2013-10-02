@@ -127,6 +127,13 @@
       bdelete
     endif
   endfunction "}}}
+  function! ToggleLineNumberType() "{{{
+    if(&relativenumber == 1)
+      set norelativenumber
+    else
+      set relativenumber
+    endif
+  endfunction "}}}
 "}}}
 
 " base configuration {{{
@@ -251,6 +258,9 @@
 
   " keep curosr in place when joining lines
   nnoremap J mzJ`z`
+
+  " toggle line numbering style
+  noremap <silent> <leader>n :call ToggleLineNumberType()<cr>
 
   " easy buffer navigation
   noremap <C-h> <C-w>h
