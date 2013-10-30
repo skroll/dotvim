@@ -553,9 +553,7 @@
       vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
     "}}}
 
-    " Note: this has to be loaded before auto-pairs
     NeoBundle 'skroll/Smart-Tabs'
-    NeoBundle 'jiangmiao/auto-pairs'
     NeoBundle 'skwp/vim-easymotion' "{{{
       " NeoBundle 'Lokaltog/vim-easymotion'
       let g:EasyMotion_keys = 'asdfghjklqwertyuiopzxcvbnm'
