@@ -257,9 +257,6 @@
   " clear search highlighting
   noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
-  " keep curosr in place when joining lines
-  nnoremap J mzJ`z`
-
   " toggle line numbering style
   noremap <silent> <leader>n :call ToggleLineNumberType()<cr>
 
