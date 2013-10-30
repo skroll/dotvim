@@ -4,6 +4,7 @@
   let s:is_windows = has('win32') || has('win64')
   let s:is_cygwin = has('win32unix')
   let s:is_macvim = has('gui_macvim')
+  let s:is_mac = has('mac')
 "}}}
 
 " dotvim settings {{{
@@ -279,8 +280,8 @@
     map <D-8> :tabn 8<CR>
     map <D-9> :tabn 9<CR>
   else
-    " fix alt-key mappings in rxvt
-    if &term =~ 'rxvt'
+    " fix alt-key mappings in rxvt and terminal mac
+    if &term =~ 'rxvt' || s:is_mac
       set <m-1>=1
       set <m-2>=2
       set <m-3>=3
