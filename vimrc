@@ -266,6 +266,12 @@
   noremap <C-k> <C-w>k
   noremap <C-l> <C-w>l
 
+  " easier vertical line navigation
+  noremap j gj
+  noremap k gk
+  noremap gj j
+  noremap gk k
+
   if s:is_macvim
     map <D-1> :tabn 1<CR>
     map <D-2> :tabn 2<CR>
