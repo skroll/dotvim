@@ -345,11 +345,16 @@
       autocmd GUIEnter * simalt ~x
     endif
 
-    set guioptions+=t                                 "tear off menu items
-    set guioptions-=T                                 "toolbar icons
+    set guioptions-=t    "tear off menu items
+    set guioptions-=T    "toolbar icons
+    set guioptions-=l    "remove left-hand scrollbars
+    set guioptions-=L
+    set guioptions-=r    "remove right-hand scrollbars
+    set guioptions-=R
 
     if s:is_macvim
-      set gfn=Ubuntu_Mono:h14
+      set fuoptions=maxvert,maxhorz
+      set gfn=Source\ Code\ Pro\ for\ Powerline:h10
       set transparency=2
     endif
 
