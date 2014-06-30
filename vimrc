@@ -403,7 +403,7 @@
       vmap <c-up> [egv
       vmap <c-down> ]egv
     "}}}
-    NeoBundleDepends 'Shougo/vimproc.vim', {
+    NeoBundle 'Shougo/vimproc.vim', {
       \ 'build': {
         \ 'mac': 'make -f make_mac.mak',
         \ 'unix': 'make -f make_unix.mak',
@@ -501,7 +501,13 @@
   if count(s:settings.plugin_groups, 'autocomplete') "{{{
     "NeoBundle 'honza/vim-snippets'
     if s:settings.autocomplete_method == 'ycm' "{{{
-      NeoBundle 'Valloric/YouCompleteMe', {'vim_version':'7.3.584'} "{{{
+      "{{{
+        NeoBundle 'Valloric/YouCompleteMe', {
+          \ 'build': {
+            \ 'unix': './install.sh --clang-completer',
+          \ },
+          \ 'vim_version':'7.3.584',
+        \ }
         let g:ycm_complete_in_comments_and_strings=1
         let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
         let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
@@ -716,7 +722,7 @@
     "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'textobj') "{{{
-    NeoBundleDepends 'kana/vim-textobj-user'
+    NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-indent'
     NeoBundle 'kana/vim-textobj-entire'
     NeoBundle 'lucapette/vim-textobj-underscore'
