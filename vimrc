@@ -99,6 +99,12 @@
   function! s:get_cache_dir(suffix) "{{{
     return resolve(expand(s:cache_dir . '/' . a:suffix))
   endfunction "}}}
+  function! Source(begin, end) "{{{
+    let lines = getline(a:begin, a:end)
+    for line in lines
+      execute line
+    endfor
+  endfunction "}}}
   function! Preserve(command) "{{{
     " preparation: save last search, and cursor position.
     let _s=@/
