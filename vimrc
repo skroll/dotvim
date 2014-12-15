@@ -28,6 +28,7 @@
   let s:settings.enable_cursorcolumn = 0
   let s:settings.colorscheme = 'badwolf'
   let s:settings.powerline_font = 0
+  let s:settings.airline_theme = 'badwolf'
 
   if filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
     let s:settings.autocomplete_method = 'ycm'
@@ -91,7 +92,7 @@
     set rtp+=~/.vim
   endif
   set rtp+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
+  call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
 " }}}
 
@@ -191,11 +192,7 @@
   let &shiftwidth=s:settings.default_indent           "number of spaces when indenting
   set list                                            "highlight whitespace
 
-  if s:settings.powerline_font
-    set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
-  else
-    set listchars=tab:│\ ,trail:•,extends:❯,precedes:❮
-  endif
+  set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
 
   set shiftround
   set linebreak
@@ -343,9 +340,13 @@
   if count(s:settings.plugin_groups, 'core') " {{{
     NeoBundle 'matchit.zip'
     NeoBundle 'bling/vim-airline' " {{{
+      let g:airline_left_sep=''
+      let g:airline_right_sep=''
       let g:airline#extensions#tabline#enabled = 1
       let g:airline#extensions#tabline#left_sep=' '
+      let g:airline#extensions#tabline#right_sep=' '
       let g:airline#extensions#tabline#left_alt_sep='¦'
+      let g:airline_theme=s:settings.airline_theme
       if s:settings.powerline_font
         let g:airline_powerline_fonts = 1
       endif
@@ -428,7 +429,7 @@
     NeoBundle 'megaannum/vimside'
   endif " }}}
   if count(s:settings.plugin_groups, 'go') " {{{
-    NeoBundleLazy 'jnwhiteh/vim-golang', {'autoload':{'filetypes':['go']}}
+    NeoBundleLazy 'fatih/vim-go', {'autoload':{'filetypes':['go']}}
     NeoBundleLazy 'nsf/gocode', {'autoload': {'filetypes':['go']}, 'rtp': 'vim'}
   endif " }}}
   if count(s:settings.plugin_groups, 'scm') " {{{
@@ -476,6 +477,7 @@
         let g:UltiSnipsSnippetsDir="~/.vim/snippets"
       " }}}
     else
+      NeoBundle 'Shougo/neosnippet-snippets'
       NeoBundle 'Shougo/neosnippet.vim' " {{{
         let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/snippets'
         let g:neosnippet#enable_snipmate_compatibility=1
@@ -588,7 +590,7 @@
       nnoremap <F2> :NERDTreeToggle<CR>
       nnoremap <F3> :NERDTreeFind<CR>
     " }}}
-    NeoBundleLazy 'majutsushi/tagbar', {'autoload':{'commands':'TagbarToggle'}} " {{{
+    NeoBundle 'majutsushi/tagbar' " {{{
       nnoremap <silent> <F8> :TagbarToggle<CR>
     " }}}
   endif " }}}
@@ -598,15 +600,17 @@
       function! bundle.hooks.on_source(bundle)
         call unite#filters#matcher_default#use(['matcher_fuzzy'])
         call unite#filters#sorter_default#use(['sorter_rank'])
-        call unite#set_profile('files', 'smartcase', 1)
         call unite#custom#source('line,outline','matchers','matcher_fuzzy')
+        call unite#set_profile('default', 'context', {
+          \ 'start_insert': 1,
+          \ 'direction': 'botright',
+          \ })
       endfunction
 
       let g:unite_data_directory=s:get_cache_dir('unite')
-      let g:unite_enable_start_insert=1
       let g:unite_source_history_yank_enable=1
       let g:unite_source_rec_max_cache_files=5000
-      let g:unite_prompt='» '
+      "let g:unite_prompt='» '
 
       if executable('ag')
         let g:unite_source_grep_command='ag'
@@ -933,12 +937,12 @@
   NeoBundle 'zeis/vim-kolor' " {{{
     let g:kolor_underlined=1
   " }}}
-
-  exec 'colorscheme '.s:settings.colorscheme
 " }}}
 
 " syntax {{{
   NeoBundleLazy 'PotatoesMaster/i3-vim-syntax', {'autoload':{'filetypes':['i3']}}
+  NeoBundleLazy 'rodjek/vim-puppet', {'autoload':{'filetypes':['puppet']}}
+  NeoBundleLazy 'dag/vim-fish', {'autoload':{'filetypes':['fish']}}
   NeoBundle 'zah/nimrod.vim'
   NeoBundle 'bkad/CamelCaseMotion'
 " }}}
@@ -950,8 +954,11 @@
     endfor
   endif
 
+  call neobundle#end()
   filetype plugin indent on
   syntax enable
+  exec 'colorscheme '.s:settings.colorscheme
+
   NeoBundleCheck
 " }}}
 
